@@ -1,28 +1,28 @@
 @include('admin.links')
 <style>
-    form.addDoctor {
+    form.updateDoctor {
         padding: 50px;
     }
 
-    form.addDoctor button,
+    form.updateDoctor button,
     [type='button'],
     [type='reset'],
     [type='submit'] {
         box-shadow: 2px 4px 10px rgb(0 0 0 / 20%);
     }
 
-    form.addDoctor [type='file'] {
+    form.updateDoctor [type='file'] {
         width: 50%;
         border: none;
     }
 
-    form.addDoctor select {
+    form.updateDoctor select {
         width: 100%;
         cursor: pointer;
     }
 
-    form.addDoctor select,
-    form.addDoctor select option {
+    form.updateDoctor select,
+    form.updateDoctor select option {
         text-transform: capitalize !important;
     }
 
@@ -41,9 +41,10 @@
         width: 100%;
     }
 
+    /*
     #docImagePreview {
         display: none;
-    }
+    } */
 
     .alert {
         left: 50%;
@@ -95,12 +96,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Add Doctors</h1>
+                        <h1>Update Doctor</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="/home">Home</a></li>
-                            <li class="breadcrumb-item active">Add Doctors</li>
+                            <li class="breadcrumb-item active">Update Doctor</li>
                         </ol>
                     </div>
                 </div>
@@ -111,21 +112,15 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
-                    @if (session()->has('message'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            {{ session('message') }}
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                aria-label="Close">&times;</button>
-                        </div>
-                    @endif
                     <div class="col-12">
-                        <form action="add_doctor" method="POST" enctype="multipart/form-data" autocomplete="off"
-                            class="addDoctor">
+                        <form action="{{ url('edit_doctor', $doctor->id) }}" method="POST"
+                            enctype="multipart/form-data" autocomplete="off" class="updateDoctor">
                             @csrf
+                            @method('PUT')
                             <div class="mb-3">
                                 <label for="name" class="form-label">Doctor Name</label>
                                 <input type="text" class="form-control" id="name" name="name"
-                                    aria-describedby="nameHelp" value="{{ old('name') }}">
+                                    aria-describedby="nameHelp" value="{{ $doctor->name }}">
                                 @error('name')
                                     <div class="col-auto">
                                         <span id="NameHelpInline" class="form-text">
@@ -137,7 +132,7 @@
                             <div class="mb-3">
                                 <label for="phone" class="form-label">Phone Number</label>
                                 <input type="number" class="form-control" id="phone" name="phone"
-                                    aria-describedby="phoneHelp" value="{{ old('phone') }}">
+                                    aria-describedby="phoneHelp" value="{{ $doctor->phone }}">
                                 @error('phone')
                                     <div class="col-auto">
                                         <span id="phoneHelpInline" class="form-text">
@@ -150,11 +145,15 @@
                                 <label for="spec" class="form-label">Specialization</label>
                                 <select class="form-select form-select-lg mb-3" id="spec" name="spec" aria-label="spec">
                                     <option value="-1" selected>--Select--</option>
-                                    <option value="skin" {{ old('spec') == 'skin' ? 'selected' : '' }}>skin</option>
-                                    <option value="heart" {{ old('spec') == 'heart' ? 'selected' : '' }}>heart
+                                    <option value="skin" {{ $doctor->specialization == 'skin' ? 'selected' : '' }}>
+                                        skin</option>
+                                    <option value="heart" {{ $doctor->specialization == 'heart' ? 'selected' : '' }}>
+                                        heart
                                     </option>
-                                    <option value="eye" {{ old('spec') == 'eye' ? 'selected' : '' }}>eye</option>
-                                    <option value="nose" {{ old('spec') == 'nose' ? 'selected' : '' }}>nose</option>
+                                    <option value="eye" {{ $doctor->specialization == 'eye' ? 'selected' : '' }}>eye
+                                    </option>
+                                    <option value="nose" {{ $doctor->specialization == 'nose' ? 'selected' : '' }}>
+                                        nose</option>
                                 </select>
                                 @error('spec')
                                     <div class="col-auto">
@@ -167,7 +166,7 @@
                             <div class="mb-3">
                                 <label for="roomNo" class="form-label">Room No.</label>
                                 <input type="text" class="form-control" id="roomNo" name="roomNo"
-                                    aria-describedby="roomNoHelp" value="{{ old('roomNo') }}">
+                                    aria-describedby="roomNoHelp" value="{{ $doctor->roomNo }}">
                                 @error('roomNo')
                                     <div class="col-auto">
                                         <span id="roomNoHelpInline" class="form-text">
@@ -182,7 +181,8 @@
                                     <i class="fas fa-cloud-upload-alt"></i> Upload
                                 </label>
                                 <input id="file-upload" type="file" name="docImg" onchange="readURL(this);" />
-                                <img id="docImagePreview" src="" alt="your image" />
+                                <img width="150" height="150" id="docImagePreview"
+                                    src="../../../doctorImg/{{ $doctor->image }}" alt="Doctor Image" />
                                 @error('docImg')
                                     <div class="col-auto">
                                         <span id="ImgHelpInline" class="form-text">
@@ -192,7 +192,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <button type="submit" class="btn btn-primary">Add</button>
+                                <button type="submit" class="btn btn-primary">Update</button>
                                 <a href="{{ url('show_doctors') }}" class="btn btn-secondary">Cancel</a>
                             </div>
                         </form>
@@ -224,7 +224,7 @@
 
             reader.onload = function(e) {
 
-                $('#docImagePreview').css('display', 'block')
+                $('#docImagePreview')
                     .attr('src', e.target.result)
                     .height(120);
             };

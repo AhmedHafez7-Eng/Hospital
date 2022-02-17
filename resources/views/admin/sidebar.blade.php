@@ -50,11 +50,28 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ url('show_doctors') }}" class="nav-link">
+                        <i class="nav-icon fas fa-calendar-minus"></i>
+                        <p>
+                            Doctors
+                            {{-- <span class="right badge badge-success">Doctors</span> --}}
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ url('add_doctor') }}" class="nav-link">
                         <i class="nav-icon fas fa-plus"></i>
                         <p>
                             Add Doctors
                             {{-- <span class="right badge badge-success">Doctors</span> --}}
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('show_appointments') }}" class="nav-link">
+                        <i class="nav-icon fas fa-calendar-minus"></i>
+                        <p>
+                            Appointments
                         </p>
                     </a>
                 </li>

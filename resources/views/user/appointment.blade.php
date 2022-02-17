@@ -78,7 +78,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary mt-3 wow zoomIn">Submit Request</button>
+            <button type="submit" class="btn btn-primary mt-3 wow zoomIn">Make Appointment</button>
         </form>
     </div>
 </div> <!-- .page-section -->

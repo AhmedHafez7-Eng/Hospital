@@ -24,8 +24,9 @@ class HomeController extends Controller
             }
             // Check if it's an Admin
             else {
-                // $doctors = Doctor::paginate(5);
-                return view('admin.home', compact('doctors'));
+                $doctors = Doctor::paginate(5);
+                $appointments = Appointment::paginate(5);
+                return view('admin.home', compact('doctors', 'appointments'));
             }
         } else {
             return redirect()->back();
@@ -37,7 +38,7 @@ class HomeController extends Controller
     {
         $doctors = Doctor::all();
         if (Auth::id()) {
-            return redirect('home', compact('doctors'));
+            return redirect()->route('home', compact('doctors'));
         } else {
             return view('user.home', compact('doctors'));
         }
