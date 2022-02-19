@@ -1,5 +1,6 @@
 <?php
 
+namespace App\Http\Middleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AdminController;
@@ -24,23 +25,23 @@ Route::get('/my_appointment', [HomeController::class, 'my_appointment']);
 Route::delete('/cancel_appoint/{id}', [HomeController::class, 'cancel_appoint']);
 
 //====================== Admin Routes [AdminController]
-Route::get('/show_doctors', [AdminController::class, 'show_doctors']);
-Route::get('/add_doctor', [AdminController::class, 'addDoctor']);
-Route::post('/add_doctor', [AdminController::class, 'createDoctor']);
-Route::get('/updateDoctor/{id}', [AdminController::class, 'updateDoctor']);
-Route::put('/edit_doctor/{id}', [AdminController::class, 'edit_doctor']);
-Route::delete('/deleteDoctor/{id}', [AdminController::class, 'deleteDoctor']);
+Route::get('/show_doctors', [AdminController::class, 'show_doctors'])->middleware(['auth'])->middleware('admin');
+Route::get('/add_doctor', [AdminController::class, 'addDoctor'])->middleware(['auth'])->middleware('admin');
+Route::post('/add_doctor', [AdminController::class, 'createDoctor'])->middleware(['auth'])->middleware('admin');
+Route::get('/updateDoctor/{id}', [AdminController::class, 'updateDoctor'])->middleware(['auth'])->middleware('admin');
+Route::put('/edit_doctor/{id}', [AdminController::class, 'edit_doctor'])->middleware(['auth'])->middleware('admin');
+Route::delete('/deleteDoctor/{id}', [AdminController::class, 'deleteDoctor'])->middleware(['auth'])->middleware('admin');
 
-Route::get('/show_appointments', [AdminController::class, 'show_appointments']);
-Route::get('/canceled/{id}', [AdminController::class, 'canceled']);
-Route::get('/approved/{id}', [AdminController::class, 'approved']);
-
-
+Route::get('/show_appointments', [AdminController::class, 'show_appointments'])->middleware(['auth'])->middleware('admin');
+Route::get('/canceled/{id}', [AdminController::class, 'canceled'])->middleware(['auth'])->middleware('admin');
+Route::get('/approved/{id}', [AdminController::class, 'approved'])->middleware(['auth'])->middleware('admin');
 
 
 
 
 
+
+//====================== Auth Routes
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');

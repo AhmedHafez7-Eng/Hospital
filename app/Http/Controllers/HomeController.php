@@ -83,8 +83,11 @@ class HomeController extends Controller
             $user_id = Auth::user()->id;
 
             $appointments = Appointment::where('user_id', $user_id)->get();
-
-            return view('user.my_appointment', compact('appointments', $appointments));
+            if(Auth::user()->user_type != '1'){
+                return view('user.my_appointment', compact('appointments', $appointments));
+            }else{
+                return view('admin.my_appointment', compact('appointments', $appointments));
+            }
         } else {
             return redirect()->back();
         }
