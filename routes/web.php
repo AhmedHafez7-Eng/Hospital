@@ -17,7 +17,7 @@ use App\Http\Controllers\AdminController;
 
 //====================== Redirection Routes [HomeController]
 Route::get('/', [HomeController::class, 'index']);
-Route::get('/home', [HomeController::class, 'redirect'])->name('home');
+Route::get('/home', [HomeController::class, 'redirect'])->name('home')->middleware(['auth', 'verified']);
 
 //====================== User Routes [HomeController]
 Route::post('/appointment', [HomeController::class, 'createAppointment']);
