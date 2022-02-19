@@ -12,6 +12,9 @@ use App\Models\Doctor;
 
 use App\Models\Appointment;
 
+use Notification;
+use App\Notifications\EmailNotification;
+
 
 class AdminController extends Controller
 {
@@ -140,5 +143,30 @@ class AdminController extends Controller
         $appointments->status = 'Canceled';
         $appointments->save();
         return redirect()->back();
+    }
+
+    //=========== Redirect to Send Email Page
+    public function emailNotify($id)
+    {
+        $appointment = Appointment::find($id);
+        return view('admin.emailNotify', compact('appointment'));
+    }
+
+    //=========== Send Email Notification
+    public function sendEmail(Request $request, $id)
+    {
+        $appointment = Appointment::find($id);
+
+        $details = [
+            'greeting' => $request->greeting,
+            'body' => $request->body,
+            'actionText' => $request->actionText,
+            'actionURL' => $request->actionURL,
+            'endPart' => $request->endPart
+        ];
+
+        Notification::send($appointment, new EmailNotification($details));
+
+        return redirect('show_appointments')->with('message', 'Email Notification Sent Successfully');
     }
 }

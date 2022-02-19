@@ -45,7 +45,7 @@ $('document').ready(function () {
     });
 
     backTop.click(function () {
-        $('html').animate({
+        $('html body').animate({
             scrollTop: 0
         }, 1000);
         return false;

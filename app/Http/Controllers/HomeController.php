@@ -86,7 +86,7 @@ class HomeController extends Controller
             if(Auth::user()->user_type != '1'){
                 return view('user.my_appointment', compact('appointments', $appointments));
             }else{
-                return view('admin.my_appointment', compact('appointments', $appointments));
+                return redirect()->back();
             }
         } else {
             return redirect()->back();

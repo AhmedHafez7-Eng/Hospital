@@ -37,8 +37,8 @@ Route::get('/canceled/{id}', [AdminController::class, 'canceled'])->middleware([
 Route::get('/approved/{id}', [AdminController::class, 'approved'])->middleware(['auth'])->middleware('admin');
 
 
-
-
+Route::get('/emailNotify/{id}', [AdminController::class, 'emailNotify'])->middleware(['auth'])->middleware('admin');
+Route::post('/sendEmail/{id}', [AdminController::class, 'sendEmail'])->middleware(['auth'])->middleware('admin');
 
 
 //====================== Auth Routes

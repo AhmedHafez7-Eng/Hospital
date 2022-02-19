@@ -40,6 +40,13 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
+                 @if (session()->has('message'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('message') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close">&times;</button>
+                        </div>
+                    @endif
                     <div class="col-12">
 
                         <div class="card">
@@ -60,6 +67,7 @@
                                             <th>Status</th>
                                             <th>Approving</th>
                                             <th>Canceling</th>
+                                            <th>Send Mail</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -100,6 +108,12 @@
                                                         @endif
                                                     </form>
                                                 </td>
+                                                <td>
+                                                    <form action="{{ url('emailNotify', $appointment->id) }}"
+                                                        method="GET">
+                                                            <button type="submit" class="btn btn-outline-primary">Send Mail</button>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -114,6 +128,7 @@
                                             <th>Status</th>
                                             <th>Approving</th>
                                             <th>Canceling</th>
+                                            <th>Send Mail</th>
                                         </tr>
                                     </tfoot>
                                 </table>
