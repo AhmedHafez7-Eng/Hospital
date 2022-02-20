@@ -12,8 +12,8 @@ use App\Models\Doctor;
 
 use App\Models\Appointment;
 
-use Notification;
 use App\Notifications\EmailNotification;
+use Illuminate\Support\Facades\Notification;
 
 
 class AdminController extends Controller
@@ -23,6 +23,8 @@ class AdminController extends Controller
     public function show_doctors()
     {
         $doctors = Doctor::all();
+        // For API
+        // return response()->json($doctors);
         return view('admin.show_doctors', compact('doctors'));
     }
     //=========== Redirect to Add Doctor
